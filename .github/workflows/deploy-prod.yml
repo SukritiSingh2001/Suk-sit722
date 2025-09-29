@@ -10,14 +10,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Azure Login
-        uses: azure/login@v1
+      - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Deploy to production
         run: |
-          echo "Deploying production environment..."
           az container create \
             --resource-group sit722-rg \
             --name sit722-prod-app \

@@ -12,14 +12,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Azure Login
-        uses: azure/login@v1
+      - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Deploy to staging
         run: |
-          echo "Creating staging environment..."
           az group create --name sit722-staging-rg --location australiaeast
           az container create \
             --resource-group sit722-staging-rg \
@@ -35,5 +33,4 @@ jobs:
 
       - name: Destroy staging environment
         run: |
-          echo "Deleting staging environment..."
           az group delete --name sit722-staging-rg --yes --no-wait

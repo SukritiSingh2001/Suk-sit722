@@ -3,18 +3,18 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"No tests yet\""
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sit722-devops/week05.git"
+    "url": "git+https://github.com/SukritiSingh2001/Suk-sit722.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/sit722-devops/week05/issues"
+    "url": "https://github.com/SukritiSingh2001/Suk-sit722/issues"
   },
-  "homepage": "https://github.com/sit722-devops/week05#readme",
+  "homepage": "https://github.com/SukritiSingh2001/Suk-sit722#readme",
   "description": ""
 }
