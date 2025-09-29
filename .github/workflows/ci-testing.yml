@@ -1,34 +1,60 @@
 name: CI - testing
+
 on:
   push:
     branches:
       - testing
+
 env:
   ACR_NAME: ${{ secrets.ACR_NAME }}
-  IMAGE_NAME: <IMAGE>
+  IMAGE_NAME: <IMAGE>   # replace with your image name
+
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
-      - run: npm install
-      - run: npm test
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: task10_2d
+
+      - name: Run tests
+        run: npm test
+        working-directory: task10_2d
+
   build-and-push:
     needs: test
     runs-on: ubuntu-latest
     if: ${{ success() }}
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: azure/login@v1
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - run: az acr login --name ${{ env.ACR_NAME }}
-      - uses: docker/setup-qemu-action@v2
-      - uses: docker/setup-buildx-action@v2
-      - uses: docker/build-push-action@v4
+
+      - name: Login to Azure Container Registry
+        run: az acr login --name ${{ env.ACR_NAME }}
+
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v4
         with:
           context: .
           file: ./Dockerfile
