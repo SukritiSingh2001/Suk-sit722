@@ -50,6 +50,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./task10_2d
-          file: ./task10_2d/Dockerfile
+          file: ./Dockerfile
           push: true
           tags: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
