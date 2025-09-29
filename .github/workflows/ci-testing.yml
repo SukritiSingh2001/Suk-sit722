@@ -6,7 +6,7 @@ on:
       - testing
 
 env:
-  ACR_NAME: sukriti722acr          # your ACR name
+  ACR_NAME: sukriti722acr
   IMAGE_NAME: sit722app
 
 jobs:
@@ -46,9 +46,10 @@ jobs:
       - uses: docker/setup-qemu-action@v2
       - uses: docker/setup-buildx-action@v2
 
-      - uses: docker/build-push-action@v4
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v4
         with:
-          context: .
-          file: ./Dockerfile
+          context: ./task10_2d
+          file: ./task10_2d/Dockerfile
           push: true
           tags: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
