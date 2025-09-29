@@ -1,0 +1,28 @@
+name: CD - Deploy to Production
+
+on:
+  push:
+    branches:
+      - main   # runs only when code is merged to main
+
+jobs:
+  deploy-prod:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy to production
+        run: |
+          echo "Deploying production environment..."
+          az container create \
+            --resource-group sit722-rg \
+            --name sit722-prod-app \
+            --image sukriti722acr.azurecr.io/sit722app:${{ github.sha }} \
+            --registry-login-server sukriti722acr.azurecr.io \
+            --cpu 1 --memory 1.5 \
+            --dns-name-label sit722-prod \
+            --ports 80

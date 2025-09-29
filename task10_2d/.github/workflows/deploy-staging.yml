@@ -1,0 +1,39 @@
+name: CD - Deploy to Staging
+
+on:
+  workflow_run:
+    workflows: ["CI - Test and Push"]
+    types:
+      - completed
+
+jobs:
+  deploy-staging:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy to staging
+        run: |
+          echo "Creating staging environment..."
+          az group create --name sit722-staging-rg --location australiaeast
+          az container create \
+            --resource-group sit722-staging-rg \
+            --name sit722-staging-app \
+            --image sukriti722acr.azurecr.io/sit722app:${{ github.sha }} \
+            --registry-login-server sukriti722acr.azurecr.io \
+            --cpu 1 --memory 1.5 \
+            --dns-name-label sit722-staging-${{ github.run_number }} \
+            --ports 80
+
+      - name: Wait for manual acceptance
+        run: echo "✅ Staging deployed. Please test manually."
+
+      - name: Destroy staging environment
+        run: |
+          echo "Deleting staging environment..."
+          az group delete --name sit722-staging-rg --yes --no-wait
