@@ -6,8 +6,8 @@ on:
       - testing
 
 env:
-  ACR_NAME: ${{ secrets.ACR_NAME }}
-  IMAGE_NAME: <IMAGE>   # Replace with your image name
+  ACR_NAME: sukriti722acr          # your ACR name
+  IMAGE_NAME: sit722app
 
 jobs:
   test:
