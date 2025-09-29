@@ -7,7 +7,7 @@ on:
 
 env:
   ACR_NAME: ${{ secrets.ACR_NAME }}
-  IMAGE_NAME: <IMAGE>   # replace with your image name
+  IMAGE_NAME: <IMAGE>   # Replace with your image name
 
 jobs:
   test:

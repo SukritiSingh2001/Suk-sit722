@@ -3,7 +3,7 @@ name: CD - Deploy to Production
 on:
   push:
     branches:
-      - main   # runs only when code is merged to main
+      - main
 
 jobs:
   deploy-prod:
